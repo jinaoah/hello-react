@@ -1,22 +1,25 @@
 //App.js
 import { Component, useEffect, useRef, useState } from "react";
 
+//랜더링 : 컴포넌트가 현재 props와 state의 상태에 기초해 UI를 어떻게 구성할지, 컴포넌트에게 작업을 요청하는 것
 const App = () => {
-  const [count, setCount] = useState(1); //초기값 : 0
-  // const [rendercount, setRenderCount] = useState(1);
-  const renderCount = useRef(1); //특정 DOM에 접근할 때 사용
-  //HOOK 함수, 컴포넌트가 마운트, 업데이트, 언마운트되었을 때 원하는 작업 수행
+  //HTML에서 id로 DOM 요소에 접근하는 것처럼, React에서도 DOM 요소에 직접 접근하기 위해 사용하는 것 : Ref
+  const inputRef = useRef();
 
   useEffect( () => {
-    renderCount.current = renderCount.current + 1;
-    console.log('랜더링 함수');
-    // setRenderCount(rendercount + 1);
-  });
-
+    console.log(inputRef);
+    inputRef.current.focus();
+  }, []);
+  
+  const login = () => {
+    alert(`환영합니다. ${inputRef.current.value}!`);
+    inputRef.current.value = ""; //input 요소의 ref가 ""로 저장된다.
+    inputRef.current.focus(); //커서의..이동..
+  };
   return (
     <div>
-      <p>Count : {count}</p>
-      <button onClick={() => setCount(count + 1)}>올려!</button>
+      <input ref={inputRef} type="text" placeholder="username"></input>
+      <button onClick={login}>로그인</button>
     </div>
   );
 };
